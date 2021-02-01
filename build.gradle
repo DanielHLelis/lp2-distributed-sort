@@ -21,6 +21,9 @@ repositories {
 }
 
 dependencies {
+    // CLI Parameter handling
+    implementation 'commons-cli:commons-cli:1.4'
+
     // Use JUnit Jupiter API for testing.
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.2'
 
@@ -30,7 +33,7 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClassName = 'br.cefetmg.parallelSort.benchmark.MergeBenchmark'
+    mainClassName = 'br.cefetmg.parallelSort.main.CLIMain'
 }
 
 test {

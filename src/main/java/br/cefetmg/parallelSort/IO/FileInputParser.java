@@ -6,24 +6,14 @@ import java.nio.file.Files;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class FileInputParser implements InputParser{
+public class FileInputParser extends FileParser implements InputParser{
 
-    private final File file;
-
-    public FileInputParser(String path) throws IOException{
-        this(new File(path));
+    public FileInputParser(String path) throws IOException {
+        super(path);
     }
 
-    public FileInputParser(File file) throws IOException{
-        if (file == null){
-            throw new NullPointerException("file can't be null");
-        }
-
-        if(!file.isFile()){
-            throw new IOException("Invalid file");
-        }
-
-        this.file = file;
+    public FileInputParser(File file) throws IOException {
+        super(file);
     }
 
     @Override
