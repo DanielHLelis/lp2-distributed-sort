@@ -8,7 +8,9 @@ import br.cefetmg.parallelSort.sort.parallel.ThreadedMergeSort;
 import org.apache.commons.cli.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CLIMain {
 
@@ -45,9 +47,19 @@ public class CLIMain {
             InputParser inputParser = new FileInputParser(inputPath);
             OutputParser outputParser = new FileOutputParser(outputPath);
 
-            List<String> input = inputParser.parse();
-            ThreadedMergeSort<String> sorter = new ThreadedMergeSort<>();
-            List<String> output = sorter.sort(input);
+            List<List<String>> input = inputParser.parse();
+
+            System.out.println(input);
+
+            ThreadedMergeSort<Integer> sorter = new ThreadedMergeSort<>();
+
+            List<List<String>> output = new ArrayList<>();
+
+            for(var l: input){
+                List<Integer> lInt = l.stream().map(Integer::parseInt).collect(Collectors.toList());
+                List<Integer> sortedLInt = sorter.sort(lInt);
+                output.add(sortedLInt.stream().map(Object::toString).collect(Collectors.toList()));
+            }
             outputParser.parse(output);
         } catch (IOException ex){
             System.err.println(ex.getMessage());

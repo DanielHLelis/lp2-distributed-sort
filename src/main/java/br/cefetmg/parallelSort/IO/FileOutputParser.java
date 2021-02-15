@@ -17,10 +17,14 @@ public class FileOutputParser extends FileParser implements OutputParser{
     }
 
     @Override
-    public void parse(List<String> data) throws IOException {
-        Files.write(
+    public void parse(List<List<String>> data) throws IOException {
+        List<String> preParsedData = data
+                .stream()
+                .map(ls -> String.join("\n", ls))
+                .collect(Collectors.toList());
+        Files.writeString(
                 file.toPath(), // File path
-                data // String list
+                String.join("\n\n", preParsedData) // String list
         );
     }
 }
