@@ -4,5 +4,5 @@ import java.io.IOException;
 import java.util.List;
 
 public interface InputParser {
-    public List<List<String>> parse() throws IOException;
+  List<List<String>> parse() throws IOException;
 }
