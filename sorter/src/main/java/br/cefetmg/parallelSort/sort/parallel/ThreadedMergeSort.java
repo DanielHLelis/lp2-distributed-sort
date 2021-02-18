@@ -1,6 +1,6 @@
 package br.cefetmg.parallelSort.sort.parallel;
 
-import br.cefetmg.parallelSort.sort.Sorter;
+import br.cefetmg.parallelSort.sort.ISorter;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.RecursiveAction;
 
-public class ThreadedMergeSort<T extends Comparable<T>> implements Sorter<T> {
+public class ThreadedMergeSort<T extends Comparable<T>> implements ISorter<T> {
   private final int maxWorkers;
   private final int minFork;
   private final ForkJoinPool threadPool;

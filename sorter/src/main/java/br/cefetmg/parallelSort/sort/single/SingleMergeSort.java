@@ -1,12 +1,12 @@
 package br.cefetmg.parallelSort.sort.single;
 
-import br.cefetmg.parallelSort.sort.Sorter;
+import br.cefetmg.parallelSort.sort.ISorter;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public class SingleMergeSort<T extends Comparable<T>> implements Sorter<T> {
+public class SingleMergeSort<T extends Comparable<T>> implements ISorter<T> {
 
   private void _sort(ArrayList<T> ref, Comparator<T> comparator, int begin, int end) {
     // begin: inclusive

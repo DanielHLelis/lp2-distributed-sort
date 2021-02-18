@@ -4,16 +4,14 @@ import br.cefetmg.parallelSort.IO.FileInputParser;
 import br.cefetmg.parallelSort.IO.FileOutputParser;
 import br.cefetmg.parallelSort.IO.InputParser;
 import br.cefetmg.parallelSort.IO.OutputParser;
-import br.cefetmg.parallelSort.sort.MultiSorter;
-import br.cefetmg.parallelSort.sort.Sorter;
-import br.cefetmg.parallelSort.sort.multisorters.BatchMultiSorter;
-import br.cefetmg.parallelSort.sort.multisorters.SerialMultiSorter;
+import br.cefetmg.parallelSort.sort.IMultiSorter;
+import br.cefetmg.parallelSort.sort.multisorters.BatchMultiSort;
+import br.cefetmg.parallelSort.sort.multisorters.SerialMultiSort;
 import br.cefetmg.parallelSort.sort.parallel.ThreadedMergeSort;
 import br.cefetmg.parallelSort.sort.single.SingleMergeSort;
 import org.apache.commons.cli.*;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,11 +20,11 @@ import java.util.stream.Collectors;
 public class CLIMain {
 
   final static String DEFAULT_ALGORITHM = "batch";
-  final static Map<String, MultiSorter<Integer>> ALGORITHMS = new HashMap<>() {
+  final static Map<String, IMultiSorter<Integer>> ALGORITHMS = new HashMap<>() {
     {
-      put("serial", new SerialMultiSorter<Integer>(new SingleMergeSort<>()));
-      put("parallel", new SerialMultiSorter<Integer>(new ThreadedMergeSort<>()));
-      put("batch", new BatchMultiSorter<>());
+      put("serial", new SerialMultiSort<Integer>(new SingleMergeSort<>()));
+      put("parallel", new SerialMultiSort<Integer>(new ThreadedMergeSort<>()));
+      put("batch", new BatchMultiSort<>());
     }
   };
 
@@ -86,7 +84,7 @@ public class CLIMain {
               )
               .collect(Collectors.toList());
 
-      MultiSorter<Integer> multiSorter = ALGORITHMS.get(algorithm);
+      IMultiSorter<Integer> multiSorter = ALGORITHMS.get(algorithm);
 
       System.out.printf("Sorting with algorithm: %s\n", algorithm);
 
@@ -101,7 +99,7 @@ public class CLIMain {
 
       outputParser.parse(output);
     } catch (IOException ex) {
-      System.err.println(ex.getMessage());
+      System.err.println("Erro: " + ex.getMessage());
       System.exit(1);
     }
   }

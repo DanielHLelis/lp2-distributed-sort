@@ -1,7 +1,7 @@
 package br.cefetmg.parallelSort.sort.multisorters;
 
-import br.cefetmg.parallelSort.sort.MultiSorter;
-import br.cefetmg.parallelSort.sort.Sorter;
+import br.cefetmg.parallelSort.sort.IMultiSorter;
+import br.cefetmg.parallelSort.sort.ISorter;
 import br.cefetmg.parallelSort.sort.single.SingleMergeSort;
 
 import java.util.ArrayList;
@@ -11,16 +11,16 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-public class BatchMultiSorter<T extends Comparable<T>> implements MultiSorter<T> {
+public class BatchMultiSort<T extends Comparable<T>> implements IMultiSorter<T> {
 
   private final int maxWorkers;
 
-  public BatchMultiSorter() {
+  public BatchMultiSort() {
     this(Runtime.getRuntime().availableProcessors());
   }
 
 
-  public BatchMultiSorter(int maxWorkers) {
+  public BatchMultiSort(int maxWorkers) {
     this.maxWorkers = maxWorkers;
   }
 
@@ -33,8 +33,8 @@ public class BatchMultiSorter<T extends Comparable<T>> implements MultiSorter<T>
       output.add(null);
       int id = i;
       executor.execute(() -> {
-        Sorter<T> sorter = new SingleMergeSort<>();
-        output.set(id, sorter.sort(data.get(id), comparator));
+        ISorter<T> ISorter = new SingleMergeSort<>();
+        output.set(id, ISorter.sort(data.get(id), comparator));
       });
     }
 

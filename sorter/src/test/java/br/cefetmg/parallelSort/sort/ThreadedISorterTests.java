@@ -1,14 +1,13 @@
 package br.cefetmg.parallelSort.sort;
 
-import br.cefetmg.parallelSort.sort.Sorter;
-import br.cefetmg.parallelSort.sort.single.SingleMergeSort;
+import br.cefetmg.parallelSort.sort.parallel.ThreadedMergeSort;
 import org.junit.jupiter.api.Test;
 
-import java.util.*;
+import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class SingleSorterTests {
+public class ThreadedISorterTests {
     private final List<Integer> INPUT_REF = List.of(
             -31745, -55297, 74752, -78852, 3075, -51205, 18438, -88072, 66568, 43019,
             -95243, -54285, 95245, 52236, -90128, -94226, -75796, -4120, -97306, 47128
@@ -21,8 +20,8 @@ public class SingleSorterTests {
 
     @Test
     public void mergeSort(){
-        Sorter<Integer> sorter = new SingleMergeSort<>();
-        List<Integer> out = sorter.sort(INPUT_REF);
+        ISorter<Integer> ISorter = new ThreadedMergeSort<>();
+        List<Integer> out = ISorter.sort(INPUT_REF);
         assertEquals(EXPECTED_REF, out);
     }
 }

@@ -1,14 +1,13 @@
 package br.cefetmg.parallelSort.sort;
 
-import br.cefetmg.parallelSort.sort.multisorters.BatchMultiSorter;
-import br.cefetmg.parallelSort.sort.parallel.ThreadedMergeSort;
+import br.cefetmg.parallelSort.sort.multisorters.BatchMultiSort;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class BatchMultiSorterTests {
+public class BatchIMultiISorterTests {
   private final List<List<Integer>> INPUT_REF = List.of(
           List.of(
                   564, 938, 779, -841, 657, 923, -718, -144, -562, 155, -116, 373, -563, -357, -642, -541, -565
@@ -64,7 +63,7 @@ public class BatchMultiSorterTests {
 
   @Test
   public void batchSorter() {
-    MultiSorter<Integer> sorter = new BatchMultiSorter<>();
+    IMultiSorter<Integer> sorter = new BatchMultiSort<>();
     List<List<Integer>> out = sorter.sort(INPUT_REF);
     assertEquals(EXPECTED_REF, out);
   }
