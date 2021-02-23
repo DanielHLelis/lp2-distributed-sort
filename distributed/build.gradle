@@ -11,6 +11,9 @@ dependencies {
     // Sorter project
     implementation project(':sorter')
 
+    // CLI Parameter handling
+    implementation 'commons-cli:commons-cli:1.4'
+
     // Use JUnit Jupiter API for testing.
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.2'
 
@@ -19,7 +22,7 @@ dependencies {
 }
 
 application {
-    mainClassName = 'distributed.App'
+    mainClassName = 'br.cefetmg.distributed.Consumer'
 }
 
 test {
