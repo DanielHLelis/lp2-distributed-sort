@@ -9,9 +9,8 @@ import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.RecursiveAction;
 
 public class ThreadedMergeSort<T extends Comparable<T>> implements ISorter<T> {
-  private final int maxWorkers;
   private final int minFork;
-  private final ForkJoinPool threadPool;
+  private ForkJoinPool threadPool;
 
   public ThreadedMergeSort() {
     this(Runtime.getRuntime().availableProcessors());
@@ -25,22 +24,15 @@ public class ThreadedMergeSort<T extends Comparable<T>> implements ISorter<T> {
     if (maxWorkers < 1) {
       throw new IllegalArgumentException("At least 1 worker necessary");
     }
-    this.maxWorkers = maxWorkers;
     threadPool = new ForkJoinPool(maxWorkers);
     this.minFork = minFork;
-  }
-
-  public int getMaxWorkers() {
-    return maxWorkers;
   }
 
   @Override
   public List<T> sort(List<T> in, Comparator<T> comparator) {
     ArrayList<T> data = new ArrayList<>(in);
     SortWorker sorterThread = new SortWorker(data, comparator, 0, in.size());
-
     threadPool.invoke(sorterThread);
-
     return data;
   }
 

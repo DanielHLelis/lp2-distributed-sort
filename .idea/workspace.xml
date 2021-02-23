@@ -5,10 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1e90a702-a5c6-49df-bad5-40022ea2aa0d" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/distributed/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/distributed/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/distributed/src/main/java/br/cefetmg/distributed/server/Worker.java" beforeDir="false" afterPath="$PROJECT_DIR$/distributed/src/main/java/br/cefetmg/distributed/server/Worker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sorter/src/main/java/br/cefetmg/parallelSort/sort/parallel/ThreadedMergeSort.java" beforeDir="false" afterPath="$PROJECT_DIR$/sorter/src/main/java/br/cefetmg/parallelSort/sort/parallel/ThreadedMergeSort.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,7 +71,7 @@
       <recent name="br.cefetmg.parallelSort.IO" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Worker">
+  <component name="RunManager" selected="Application.Consumer">
     <configuration name="Consumer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="br.cefetmg.distributed.client.Consumer" />
       <module name="parallel-sort.distributed.main" />
@@ -147,7 +146,7 @@
       <updated>1613617999206</updated>
       <workItem from="1613618002899" duration="5513000" />
       <workItem from="1613768842468" duration="769000" />
-      <workItem from="1614106610478" duration="4157000" />
+      <workItem from="1614106610478" duration="4976000" />
     </task>
     <servers />
   </component>
