@@ -1,5 +1,6 @@
 package br.cefetmg.distributed.server;
 
+import br.cefetmg.distributed.IntegerListParser;
 import br.cefetmg.parallelSort.sort.ISorter;
 import br.cefetmg.parallelSort.sort.parallel.ThreadedMergeSort;
 import org.apache.commons.cli.*;
@@ -10,10 +11,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Worker {
 
@@ -26,37 +24,33 @@ public class Worker {
     DataInputStream inputStream = new DataInputStream(socket.getInputStream());
     DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream());
 
-    String data = inputStream.readUTF();
-    String[] rows = data.split("\n");
-
     try {
-      if (rows[0].equals("sort")) {
-        List<String> clearedData = new ArrayList<>(Arrays.asList(rows));
-        clearedData.remove(0);
+      byte flag = inputStream.readByte();
 
-        List<Integer> parsedData = clearedData.stream()
-                .map(Integer::parseInt)
-                .collect(Collectors.toList());
-
-        System.out.printf("Sorting integer list of size %d\n", parsedData.size());
-
-        List<Integer> sortedData = sorter.sort(parsedData);
-
-        StringBuilder outputData = new StringBuilder();
-
-        for (var l : sortedData) {
-          outputData.append(l.toString());
-          outputData.append('\n');
-        }
-
-        outputStream.writeUTF(outputData.toString());
-        outputStream.flush();
-      }else {
-        throw new Exception();
+      if (flag != -128) {
+        throw new Exception("Invalid operation");
       }
+
+      int listSize = inputStream.readInt();
+
+      byte[] bytes = inputStream.readNBytes(listSize * 4);
+
+      List<Integer> parsedData = IntegerListParser.fromByteArray(bytes);
+
+      System.out.printf("Sorting integer list of size %d\n", parsedData.size());
+
+      List<Integer> sortedData = sorter.sort(parsedData);
+
+      outputStream.writeByte(127);
+      outputStream.writeInt(sortedData.size());
+
+      outputStream.write(IntegerListParser.toByteArray(sortedData));
+
+      outputStream.flush();
     } catch (Exception ex) {
       System.out.println("Exception: " + ex.getMessage());
-      outputStream.writeUTF("error\n");
+      outputStream.writeByte(-1);
+      outputStream.writeUTF(ex.getMessage());
       outputStream.flush();
     }
   }
@@ -71,7 +65,7 @@ public class Worker {
       Socket socket = serverSocket.accept();
       System.out.printf("Received request at %s\n", socket.getInetAddress().toString());
 
-      try{
+      try {
         sort(socket);
       } catch (Exception ex) {
         System.out.println("Exception: " + ex.getMessage());
@@ -116,27 +110,27 @@ public class Worker {
     String hostArg = cmd.getOptionValue("host");
     String workersArg = cmd.getOptionValue("workersArg");
 
-    if(portArg == null){
+    if (portArg == null) {
       portArg = "19000";
     }
 
-    if(hostArg == null){
+    if (hostArg == null) {
       hostArg = "0.0.0.0";
     }
 
-    if(workersArg == null){
+    if (workersArg == null) {
       workersArg = "1";
     }
 
     int port;
     int workers;
 
-    try{
+    try {
       port = Integer.parseInt(portArg);
       workers = Integer.parseInt(workersArg);
       sorter = new ThreadedMergeSort<>(workers);
-      Worker.serve(port,50, hostArg);
-    }catch (Exception e){
+      Worker.serve(port, 50, hostArg);
+    } catch (Exception e) {
       System.err.println(e.getMessage());
       System.exit(1);
     }

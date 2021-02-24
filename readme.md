@@ -8,6 +8,11 @@ técnicas de Threads e sistemas distribuídos.
 
 Utilizar o `gradle` wrapper embutido no projeto para realizar as operações básicas.
 
+## Estrutura do projeto
+
+O projeto atualmente é dividido em dois sub-projetos: `sorter`, responsável
+pelos algoritmos de ordenação paralela e IO dos arquivos `data.in` e `data.out`.
+
 ### Comandos úteis
 
 _Obs.: no **Windows**, substituir `./gradlew` por `.\gradlew.bat`_
@@ -16,8 +21,8 @@ _Obs.: no **Windows**, substituir `./gradlew` por `.\gradlew.bat`_
     - `./gradlew build`
 - Executar testes
     - `./gradlew test`
-- Executar a CLI
-    - `./gradlew run --args="-i data.in -o data.out -a batch"`
+- Executar a CLI do `sorter`
+    - `./gradlew sorter:run --args="-i data.in -o data.out -a batch"`
         - `-i`: arquivo de entrada (listas de inteiros separados por 
           quebras de linhas, múltiplas listas devem ser separadas por uma 
           linha em branco)
