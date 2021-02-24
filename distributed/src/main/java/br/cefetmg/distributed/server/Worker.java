@@ -3,6 +3,7 @@ package br.cefetmg.distributed.server;
 import br.cefetmg.distributed.IntegerListParser;
 import br.cefetmg.parallelSort.sort.ISorter;
 import br.cefetmg.parallelSort.sort.parallel.ThreadedMergeSort;
+import br.cefetmg.parallelSort.sort.single.SingleMergeSort;
 import org.apache.commons.cli.*;
 
 import java.io.DataInputStream;
@@ -55,12 +56,25 @@ public class Worker {
     }
   }
 
-  public static void serve(int port, int backlog, String host) throws IOException {
+  public static void serve(int port, int backlog, String host, int workers) throws IOException {
     InetAddress addr = InetAddress.getByName(host);
     ServerSocket serverSocket = new ServerSocket(port, backlog, addr);
 
     System.out.printf("Server listening at %s:%d\n", host, port);
 
+    for(int i = 0; i < workers; i++){
+      new Thread(() -> {
+        try{
+          handleConnection(serverSocket);
+        }catch (IOException ex){
+          throw new RuntimeException(ex);
+        }
+      }).start();
+    }
+  }
+
+  public static void handleConnection(ServerSocket serverSocket) throws IOException{
+    System.out.println("New worker running");
     while (true) {
       Socket socket = serverSocket.accept();
       System.out.printf("Received request at %s\n", socket.getInetAddress().toString());
@@ -128,8 +142,8 @@ public class Worker {
     try {
       port = Integer.parseInt(portArg);
       workers = Integer.parseInt(workersArg);
-      sorter = new ThreadedMergeSort<>(workers);
-      Worker.serve(port, 50, hostArg);
+      sorter = new SingleMergeSort<>();
+      Worker.serve(port, 50, hostArg, workers);
     } catch (Exception e) {
       System.err.println(e.getMessage());
       System.exit(1);
